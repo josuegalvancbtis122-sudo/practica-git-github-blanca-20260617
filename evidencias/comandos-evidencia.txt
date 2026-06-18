@@ -74,3 +74,201 @@ Nota: si no aparece salida en el comando anterior, local y remoto estan sincroni
 ## master...origin/master
  M evidencias/comandos-evidencia.txt
 
+
+===== Push de evidencias previas =====
+> git push origin master
+To https://github.com/josuegalvancbtis122-sudo/practica-git-github-blanca-20260617.git
+   e84ec55..fe7728a  master -> master
+
+
+===== Preparacion de conflicto =====
+Se sincronizo la base antes de crear cambios divergentes.
+
+===== Cambio remoto para provocar conflicto =====
+Se edito README.md directamente en GitHub mediante API.
+Commit remoto: cdc20d0 - Modificar README desde GitHub para conflicto
+Linea remota: La aplicacion fue modificada desde GitHub para provocar un conflicto remoto.
+
+===== Cambio local para provocar conflicto =====
+> git diff README.md
+warning: in the working copy of 'README.md', LF will be replaced by CRLF the next time Git touches it
+diff --git a/README.md b/README.md
+index 24b7312..1a18a45 100644
+--- a/README.md
++++ b/README.md
+@@ -10,4 +10,4 @@ Proyecto individual para documentar el flujo basico de Git y GitHub:
+ 
+ ## Proyecto
+ 
+-La aplicacion es una pagina web sencilla de presentacion para la practica.
++La aplicacion fue modificada localmente para provocar un conflicto de practica.
+
+
+===== Commit local divergente =====
+> git log --oneline --decorate --graph --all -5
+* 05b9394 (HEAD -> master) Modificar README localmente para conflicto
+* fe7728a (origin/master) Agregar evidencias de push y pull
+* e84ec55 Documentar creacion del repositorio remoto
+* 6451d2b Agregar proyecto base para practica GitHub
+
+
+===== Pull que genera conflicto =====
+> git pull origin master
+From https://github.com/josuegalvancbtis122-sudo/practica-git-github-blanca-20260617
+ * branch            master     -> FETCH_HEAD
+   fe7728a..cdc20d0  master     -> origin/master
+warning: in the working copy of 'evidencias/comandos-evidencia.txt', LF will be replaced by CRLF the next time Git touches it
+Auto-merging README.md
+CONFLICT (content): Merge conflict in README.md
+Automatic merge failed; fix conflicts and then commit the result.
+
+
+===== Estado con conflicto =====
+> git status --short --branch
+## master...origin/master [ahead 1, behind 1]
+UU README.md
+ M evidencias/comandos-evidencia.txt
+
+
+===== Marcadores de conflicto en README.md =====
+# Practica Git y GitHub
+
+Proyecto individual para documentar el flujo basico de Git y GitHub:
+
+- Crear repositorio remoto.
+- Subir un proyecto con `push`.
+- Actualizar con `pull`.
+- Revisar diferencias entre local y remoto.
+- Generar y documentar un conflicto.
+
+## Proyecto
+
+<<<<<<< HEAD
+La aplicacion fue modificada localmente para provocar un conflicto de practica.
+=======
+La aplicacion fue modificada desde GitHub para provocar un conflicto remoto.
+>>>>>>> cdc20d091fb0302a10fe98b9c200ffe11bf5d165
+
+
+===== Log con diferencia local/remoto durante conflicto =====
+> git log --oneline --decorate --graph --left-right HEAD...origin/master
+< 05b9394 (HEAD -> master) Modificar README localmente para conflicto
+> cdc20d0 (origin/master) Modificar README desde GitHub para conflicto
+
+
+===== Resolucion del conflicto =====
+Se editaron los marcadores <<<<<<<, ======= y >>>>>>> en README.md.
+Linea final: La aplicacion integra el cambio local y el cambio remoto para dejar resuelto el conflicto de practica.
+
+===== Diff de la resolucion =====
+> git diff
+warning: in the working copy of 'README.md', LF will be replaced by CRLF the next time Git touches it
+diff --cc README.md
+index 1a18a45,a564c68..0000000
+--- a/README.md
++++ b/README.md
+@@@ -10,4 -10,4 +10,4 @@@ Proyecto individual para documentar el 
+  
+  ## Proyecto
+  
+- La aplicacion fue modificada localmente para provocar un conflicto de practica.
+ -La aplicacion fue modificada desde GitHub para provocar un conflicto remoto.
+++La aplicacion integra el cambio local y el cambio remoto para dejar resuelto el conflicto de practica.
+diff --git a/evidencias/comandos-evidencia.txt b/evidencias/comandos-evidencia.txt
+index 89b6b96..7c51624 100644
+--- a/evidencias/comandos-evidencia.txt
++++ b/evidencias/comandos-evidencia.txt
+@@ -74,3 +74,91 @@ Nota: si no aparece salida en el comando anterior, local y remoto estan sincroni
+ ## master...origin/master
+  M evidencias/comandos-evidencia.txt
+ 
++
++===== Push de evidencias previas =====
++> git push origin master
++To https://github.com/josuegalvancbtis122-sudo/practica-git-github-blanca-20260617.git
++   e84ec55..fe7728a  master -> master
++
++
+warning: in the working copy of 'evidencias/comandos-evidencia.txt', LF will be replaced by CRLF the next time Git touches it
++===== Preparacion de conflicto =====
++Se sincronizo la base antes de crear cambios divergentes.
++
++===== Cambio remoto para provocar conflicto =====
++Se edito README.md directamente en GitHub mediante API.
++Commit remoto: cdc20d0 - Modificar README desde GitHub para conflicto
++Linea remota: La aplicacion fue modificada desde GitHub para provocar un conflicto remoto.
++
++===== Cambio local para provocar conflicto =====
++> git diff README.md
++warning: in the working copy of 'README.md', LF will be replaced by CRLF the next time Git touches it
++diff --git a/README.md b/README.md
++index 24b7312..1a18a45 100644
++--- a/README.md
+++++ b/README.md
++@@ -10,4 +10,4 @@ Proyecto individual para documentar el flujo basico de Git y GitHub:
++ 
++ ## Proyecto
++ 
++-La aplicacion es una pagina web sencilla de presentacion para la practica.
+++La aplicacion fue modificada localmente para provocar un conflicto de practica.
++
++
++===== Commit local divergente =====
++> git log --oneline --decorate --graph --all -5
++* 05b9394 (HEAD -> master) Modificar README localmente para conflicto
++* fe7728a (origin/master) Agregar evidencias de push y pull
++* e84ec55 Documentar creacion del repositorio remoto
++* 6451d2b Agregar proyecto base para practica GitHub
++
++
++===== Pull que genera conflicto =====
++> git pull origin master
++From https://github.com/josuegalvancbtis122-sudo/practica-git-github-blanca-20260617
++ * branch            master     -> FETCH_HEAD
++   fe7728a..cdc20d0  master     -> origin/master
++warning: in the working copy of 'evidencias/comandos-evidencia.txt', LF will be replaced by CRLF the next time Git touches it
++Auto-merging README.md
++CONFLICT (content): Merge conflict in README.md
++Automatic merge failed; fix conflicts and then commit the result.
++
++
++===== Estado con conflicto =====
++> git status --short --branch
++## master...origin/master [ahead 1, behind 1]
++UU README.md
++ M evidencias/comandos-evidencia.txt
++
++
++===== Marcadores de conflicto en README.md =====
++# Practica Git y GitHub
++
++Proyecto individual para documentar el flujo basico de Git y GitHub:
++
++- Crear repositorio remoto.
++- Subir un proyecto con `push`.
++- Actualizar con `pull`.
++- Revisar diferencias entre local y remoto.
++- Generar y documentar un conflicto.
++
++## Proyecto
++
++<<<<<<< HEAD
++La aplicacion fue modificada localmente para provocar un conflicto de practica.
++=======
++La aplicacion fue modificada desde GitHub para provocar un conflicto remoto.
++>>>>>>> cdc20d091fb0302a10fe98b9c200ffe11bf5d165
++
++
++===== Log con diferencia local/remoto durante conflicto =====
++> git log --oneline --decorate --graph --left-right HEAD...origin/master
++< 05b9394 (HEAD -> master) Modificar README localmente para conflicto
++> cdc20d0 (origin/master) Modificar README desde GitHub para conflicto
++
++
++===== Resolucion del conflicto =====
++Se editaron los marcadores <<<<<<<, ======= y >>>>>>> en README.md.
++Linea final: La aplicacion integra el cambio local y el cambio remoto para dejar resuelto el conflicto de practica.
++
++===== Diff de la resolucion =====
++> git diff
+

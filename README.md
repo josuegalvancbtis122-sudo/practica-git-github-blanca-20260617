@@ -10,4 +10,4 @@ Proyecto individual para documentar el flujo basico de Git y GitHub:
 
 ## Proyecto
 
-La aplicacion fue modificada localmente para provocar un conflicto de practica.
+La aplicacion integra el cambio local y el cambio remoto para dejar resuelto el conflicto de practica.
