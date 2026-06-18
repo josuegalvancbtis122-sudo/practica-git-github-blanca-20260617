@@ -10,4 +10,4 @@ Proyecto individual para documentar el flujo basico de Git y GitHub:
 
 ## Proyecto
 
-La aplicacion es una pagina web sencilla de presentacion para la practica.
+La aplicacion fue modificada desde GitHub para provocar un conflicto remoto.
