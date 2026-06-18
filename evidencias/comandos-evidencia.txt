@@ -1,0 +1,28 @@
+Practica Git y GitHub - evidencias
+Fecha: 2026-06-17 19:44:12
+Autor Git: Josue Galvan Arana <josuegalvann@hotmail.com>
+
+
+===== Estado inicial del repositorio local =====
+> git status --short --branch
+## No commits yet on master
+?? README.md
+?? evidencias/
+?? index.html
+?? script.js
+?? styles.css
+
+
+===== Archivos del proyecto creado =====
+> Get-ChildItem -Force | Select-Object Mode,Length,Name | Format-Table -AutoSize
+
+Mode  Length Name
+----  ------ ----
+d--h-        .git
+d----        evidencias
+-a--- 596    index.html
+-a--- 350    README.md
+-a--- 256    script.js
+-a--- 936    styles.css
+
+
