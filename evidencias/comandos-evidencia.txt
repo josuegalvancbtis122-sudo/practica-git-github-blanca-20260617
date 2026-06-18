@@ -49,3 +49,28 @@ Creado en esta practica: True
 origin	https://github.com/josuegalvancbtis122-sudo/practica-git-github-blanca-20260617.git (fetch)
 origin	https://github.com/josuegalvancbtis122-sudo/practica-git-github-blanca-20260617.git (push)
 
+
+===== Push al repositorio remoto =====
+> git push -u origin master
+To https://github.com/josuegalvancbtis122-sudo/practica-git-github-blanca-20260617.git
+ * [new branch]      master -> master
+branch 'master' set up to track 'origin/master'.
+
+
+===== Pull desde el repositorio remoto =====
+> git pull origin master
+From https://github.com/josuegalvancbtis122-sudo/practica-git-github-blanca-20260617
+ * branch            master     -> FETCH_HEAD
+Already up to date.
+
+
+===== Log para comparar local y remoto =====
+> git log --oneline --decorate --graph --all --left-right HEAD...origin/master
+
+Nota: si no aparece salida en el comando anterior, local y remoto estan sincronizados.
+
+===== Estado despues de push y pull =====
+> git status --short --branch
+## master...origin/master
+ M evidencias/comandos-evidencia.txt
+
