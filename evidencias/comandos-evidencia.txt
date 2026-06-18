@@ -272,3 +272,32 @@ warning: in the working copy of 'evidencias/comandos-evidencia.txt', LF will be 
 +===== Diff de la resolucion =====
 +> git diff
 
+
+===== Commit de resolucion =====
+> git log --oneline --decorate --graph --all -8
+*   8c5b526 (HEAD -> master) Resolver conflicto entre local y remoto
+|\  
+| * cdc20d0 (origin/master) Modificar README desde GitHub para conflicto
+* | 05b9394 Modificar README localmente para conflicto
+|/  
+* fe7728a Agregar evidencias de push y pull
+* e84ec55 Documentar creacion del repositorio remoto
+* 6451d2b Agregar proyecto base para practica GitHub
+
+
+===== Push de resolucion =====
+> git push origin master
+To https://github.com/josuegalvancbtis122-sudo/practica-git-github-blanca-20260617.git
+   cdc20d0..8c5b526  master -> master
+
+
+===== Estado final =====
+> git status --short --branch
+## master...origin/master
+ M evidencias/comandos-evidencia.txt
+
+
+===== Log final sincronizado =====
+> git log --oneline --decorate --graph --all --left-right HEAD...origin/master
+
+Nota final: si no aparece salida en el ultimo comando, local y remoto quedaron sincronizados.
