@@ -6,6 +6,7 @@ from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.units import inch
 from reportlab.platypus import (
+    Image as RLImage,
     PageBreak,
     Paragraph,
     Preformatted,
@@ -19,6 +20,29 @@ from reportlab.platypus import (
 ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "output" / "pdf" / "evidencias-practica-git-github.pdf"
 EVIDENCE = ROOT / "evidencias" / "comandos-evidencia.txt"
+CAPTURES = ROOT / "evidencias" / "capturas"
+
+SCREENSHOT_TITLES = [
+    ("01-estado-inicial.png", "Captura 1. Estado inicial del repositorio local"),
+    ("02-proyecto-creado.png", "Captura 2. Proyecto creado"),
+    ("03-commit-inicial.png", "Captura 3. Commit inicial local"),
+    ("04-repositorio-remoto.png", "Captura 4. Repositorio remoto en GitHub"),
+    ("05-push.png", "Captura 5. Push al repositorio remoto"),
+    ("06-pull.png", "Captura 6. Pull desde el repositorio remoto"),
+    ("07-log-local-remoto.png", "Captura 7. Log para comparar local y remoto"),
+    ("08-cambio-remoto-conflicto.png", "Captura 8. Cambio remoto para provocar conflicto"),
+    ("09-cambio-local-conflicto.png", "Captura 9. Cambio local para provocar conflicto"),
+    ("10-pull-conflicto.png", "Captura 10. Pull que genera conflicto"),
+    ("11-estado-conflicto.png", "Captura 11. Estado con conflicto"),
+    ("12-marcadores-conflicto.png", "Captura 12. Marcadores de conflicto en README.md"),
+    ("13-log-diferencia-conflicto.png", "Captura 13. Log con diferencia local/remoto durante conflicto"),
+    ("14-resolucion-conflicto.png", "Captura 14. Resolucion del conflicto"),
+    ("15-push-resolucion.png", "Captura 15. Push de resolucion"),
+    ("16-estado-final.png", "Captura 16. Estado final"),
+    ("17-github-repositorio.png", "Captura 17. Repositorio visible en GitHub"),
+    ("18-github-commits.png", "Captura 18. Historial de commits en GitHub"),
+    ("19-github-pdf.png", "Captura 19. PDF de evidencias dentro del repositorio"),
+]
 
 
 def footer(canvas, doc):
@@ -38,6 +62,16 @@ def mono_block(text, style):
             continue
         lines.extend(wrap(raw_line, width=92, replace_whitespace=False) or [""])
     return Preformatted("\n".join(lines), style)
+
+
+def screenshot_block(path, caption, caption_style):
+    max_width = 7.0 * inch
+    max_height = 4.75 * inch
+    image = RLImage(str(path))
+    ratio = min(max_width / image.imageWidth, max_height / image.imageHeight)
+    image.drawWidth = image.imageWidth * ratio
+    image.drawHeight = image.imageHeight * ratio
+    return [Paragraph(caption, caption_style), image, Spacer(1, 12)]
 
 
 def build_pdf():
@@ -140,7 +174,14 @@ def build_pdf():
             ]
         )
     )
-    story.extend([table, PageBreak(), Paragraph("Evidencias de comandos", title)])
+    story.extend([table, PageBreak(), Paragraph("Capturas de pantalla", title)])
+
+    for filename, caption in SCREENSHOT_TITLES:
+        image_path = CAPTURES / filename
+        if image_path.exists():
+            story.extend(screenshot_block(image_path, caption, body))
+
+    story.extend([PageBreak(), Paragraph("Evidencias de comandos", title)])
 
     evidence_text = EVIDENCE.read_text(encoding="utf-8", errors="replace")
     sections = evidence_text.split("\n===== ")
