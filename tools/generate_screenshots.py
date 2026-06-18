@@ -41,6 +41,10 @@ def load_font(size=18):
     return ImageFont.load_default()
 
 
+def text_width(draw, text, font):
+    return draw.textlength(text, font=font)
+
+
 def extract_sections(text):
     sections = {}
     parts = text.split("\n===== ")
@@ -54,42 +58,82 @@ def extract_sections(text):
     return sections
 
 
-def draw_terminal(title, body, path):
-    font = load_font(18)
-    title_font = load_font(20)
-    max_chars = 96
-    lines = []
-    for line in body.splitlines():
-        if len(line) <= max_chars:
-            lines.append(line)
+def draw_prompt(draw, x, y, font, route="/c/Users/equipo/Documents/Blanca"):
+    parts = [
+        ("equipo@DESKTOP-3TBB1UV", "#00ff00"),
+        (" MINGW64", "#ff00ff"),
+        (f" {route}", "#ffd200"),
+    ]
+    for text, color in parts:
+        draw.text((x, y), text, fill=color, font=font)
+        x += text_width(draw, text, font)
+    return x
+
+
+def normalize_terminal_lines(body):
+    result = []
+    for raw_line in body.splitlines():
+        if raw_line.startswith("> "):
+            result.append(("command", raw_line[2:]))
+        elif raw_line.startswith(">"):
+            result.append(("command", raw_line[1:].strip()))
         else:
-            lines.extend(wrap(line, width=max_chars, replace_whitespace=False))
+            result.append(("output", raw_line))
+    return result
+
+
+def draw_terminal(title, body, path):
+    font = load_font(20)
+    title_font = load_font(18)
+    max_chars = 105
+    lines = []
+    for kind, line in normalize_terminal_lines(body):
+        if len(line) <= max_chars:
+            lines.append((kind, line))
+        else:
+            for wrapped in wrap(line, width=max_chars, replace_whitespace=False):
+                lines.append((kind, wrapped))
     if len(lines) > 34:
-        lines = lines[:33] + ["..."]
+        lines = lines[:33] + [("output", "...")]
 
     width = 1380
-    header_h = 64
-    pad = 28
+    title_h = 48
+    pad_x = 0
+    pad_y = 22
     line_h = 26
-    height = header_h + pad + (len(lines) + 1) * line_h + pad
-    image = Image.new("RGB", (width, height), "#0f172a")
+    visual_lines = len(lines) + sum(1 for kind, _ in lines if kind == "command")
+    content_h = pad_y + (visual_lines * line_h) + 40
+    height = title_h + max(content_h, 250)
+    image = Image.new("RGB", (width, height), "#000000")
     draw = ImageDraw.Draw(image)
-    draw.rectangle((0, 0, width, header_h), fill="#111827")
-    draw.ellipse((22, 22, 42, 42), fill="#ef4444")
-    draw.ellipse((54, 22, 74, 42), fill="#f59e0b")
-    draw.ellipse((86, 22, 106, 42), fill="#22c55e")
-    draw.text((130, 19), title, fill="#f8fafc", font=title_font)
 
-    y = header_h + pad
-    for line in lines:
-        fill = "#e5e7eb"
-        if line.startswith(">"):
-            fill = "#93c5fd"
-        elif "CONFLICT" in line or "UU README.md" in line:
-            fill = "#fca5a5"
-        elif "To https://" in line or "Already up to date" in line:
-            fill = "#86efac"
-        draw.text((pad, y), line, fill=fill, font=font)
+    draw.rectangle((0, 0, width, title_h), fill="#202020")
+    draw.polygon([(15, 23), (28, 10), (41, 23), (28, 36)], fill="#d7d7d7")
+    draw.polygon([(20, 18), (28, 10), (28, 23)], fill="#ff5f56")
+    draw.polygon([(20, 28), (28, 36), (28, 23)], fill="#27c93f")
+    draw.polygon([(36, 18), (28, 10), (28, 23)], fill="#ffbd2e")
+    draw.polygon([(36, 28), (28, 36), (28, 23)], fill="#58a6ff")
+    draw.text((56, 13), "MINGW64:/", fill="#f2f2f2", font=title_font)
+    draw.text((width - 275, 12), "-", fill="#f2f2f2", font=title_font)
+    draw.rectangle((width - 174, 15, width - 154, 34), outline="#f2f2f2", width=2)
+    draw.text((width - 78, 10), "×", fill="#f2f2f2", font=load_font(24))
+    draw.rectangle((width - 26, title_h, width - 1, height), fill="#1d1d1d")
+    draw.polygon([(width - 14, title_h + 12), (width - 21, title_h + 22), (width - 7, title_h + 22)], fill="#555555")
+    draw.polygon([(width - 14, height - 12), (width - 21, height - 22), (width - 7, height - 22)], fill="#555555")
+
+    y = title_h + pad_y
+    for kind, line in lines:
+        if kind == "command":
+            draw_prompt(draw, pad_x, y, font)
+            y += line_h
+            draw.text((pad_x, y), f"$ {line}", fill="#f2f2f2", font=font)
+        else:
+            fill = "#f2f2f2"
+            if "CONFLICT" in line or "UU README.md" in line:
+                fill = "#ff6666"
+            elif "To https://" in line or "Already up to date" in line:
+                fill = "#83ff83"
+            draw.text((pad_x, y), line, fill=fill, font=font)
         y += line_h
 
     image.save(path)
