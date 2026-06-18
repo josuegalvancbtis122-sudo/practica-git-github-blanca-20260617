@@ -26,3 +26,26 @@ d----        evidencias
 -a--- 936    styles.css
 
 
+
+===== Commit inicial local =====
+> git log --oneline --decorate --graph --all
+* 6451d2b (HEAD -> master) Agregar proyecto base para practica GitHub
+
+
+===== Estado despues del commit inicial =====
+> git status --short --branch
+## master
+ M evidencias/comandos-evidencia.txt
+
+
+===== Repositorio remoto en GitHub =====
+Usuario GitHub: josuegalvancbtis122-sudo
+Repositorio: josuegalvancbtis122-sudo/practica-git-github-blanca-20260617
+URL: https://github.com/josuegalvancbtis122-sudo/practica-git-github-blanca-20260617
+Creado en esta practica: True
+
+===== Remote configurado =====
+> git remote -v
+origin	https://github.com/josuegalvancbtis122-sudo/practica-git-github-blanca-20260617.git (fetch)
+origin	https://github.com/josuegalvancbtis122-sudo/practica-git-github-blanca-20260617.git (push)
+
