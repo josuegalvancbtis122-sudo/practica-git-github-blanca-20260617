@@ -1,0 +1,58 @@
+Ejercicio: clonar repositorio publico con fork
+Fecha: 2026-06-19 17:24:59
+Repositorio original: https://github.com/sgvillalobos/practica-git.git
+Fork creado: https://github.com/josuegalvancbtis122-sudo/practica-git
+Link copiado para clone: https://github.com/josuegalvancbtis122-sudo/practica-git.git
+
+
+===== Repositorio publico seleccionado =====
+> git -c http.sslBackend=openssl ls-remote https://github.com/sgvillalobos/practica-git.git HEAD
+c443607296ff926b1d152fe3471080d570716318	HEAD
+
+
+===== Fork creado en GitHub =====
+> POST https://api.github.com/repos/sgvillalobos/practica-git/forks
+Fork: josuegalvancbtis122-sudo/practica-git
+URL: https://github.com/josuegalvancbtis122-sudo/practica-git
+Clone URL: https://github.com/josuegalvancbtis122-sudo/practica-git.git
+
+
+===== Clone del fork =====
+> git -c http.sslBackend=openssl clone https://github.com/josuegalvancbtis122-sudo/practica-git.git ejercicio-clone-fork/practica-git-fork
+Cloning into 'ejercicio-clone-fork/practica-git-fork'...
+Clone completado desde el fork.
+
+
+===== Remote del repositorio clonado =====
+> git remote -v
+origin	https://github.com/josuegalvancbtis122-sudo/practica-git.git (fetch)
+origin	https://github.com/josuegalvancbtis122-sudo/practica-git.git (push)
+
+
+===== Rama actual del clone =====
+> git branch --show-current
+main
+
+
+===== Commits previos del repositorio =====
+> git log --oneline --decorate --graph --all
+* c443607 (HEAD -> main, origin/main, origin/HEAD) Rename project title in README
+* c8cd28a Update project title in README
+* 996718c Primer commit
+
+
+===== Archivos clonados =====
+> Get-ChildItem -Force | Select-Object Mode,Length,Name | Format-Table -AutoSize
+
+Mode  Length Name
+----  ------ ----
+d--h-        .git
+-a--- 24     README.md
+
+
+
+
+===== Estado final del clone =====
+> git status --short --branch
+## main...origin/main
+
