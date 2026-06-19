@@ -17,13 +17,17 @@ OUT = ROOT / "output" / "pdf" / "evidencias-clone-repositorio-publico.pdf"
 
 SHOTS = [
     ("01-repositorio-publico-verificado.png", "Repositorio publico seleccionado"),
-    ("02-fork.png", "Fork"),
+    ("02-fork.png", "Fork creado en GitHub"),
     ("03-clone.png", "Clone del fork"),
     ("04-remote.png", "Remote del repositorio clonado"),
     ("05-rama.png", "Rama actual del clone"),
     ("06-commits-previos.png", "Commits previos del repositorio"),
     ("07-archivos.png", "Archivos clonados"),
     ("08-estado-final.png", "Estado final del clone"),
+    ("09-cambios-realizados.png", "Cambios realizados en el proyecto"),
+    ("10-commit-cambios.png", "Commit de los cambios"),
+    ("11-push-remoto.png", "Push al repositorio remoto"),
+    ("12-pull-request.png", "Pull request creado"),
 ]
 
 
@@ -158,7 +162,7 @@ def build_pdf():
         Paragraph("Evidencias de clonar repositorio publico", title),
         Paragraph("Trabajo realizado de forma individual", h2),
         Paragraph("Repositorio seleccionado: https://github.com/sgvillalobos/practica-git.git", body),
-        Paragraph("Se verifico el repositorio publico, se ejecuto git clone y se revisaron los commits previos del proyecto clonado.", body),
+        Paragraph("Se verifico el repositorio publico, se ejecuto git clone, se revisaron los commits previos, se realizaron cambios, se hizo commit, push y pull request.", body),
         Paragraph("Fork creado en GitHub: https://github.com/josuegalvancbtis122-sudo/practica-git. Link usado para clonar: https://github.com/josuegalvancbtis122-sudo/practica-git.git.", body),
     ]
     table = Table([
@@ -167,6 +171,10 @@ def build_pdf():
         ["Hacer fork", "Fork creado en la cuenta josuegalvancbtis122-sudo." ],
         ["Clonar repositorio", "git clone ejecutado desde el fork en ejercicio-clone-fork/practica-git-fork."],
         ["Mostrar commits previos", "git log muestra 3 commits previos: c443607, c8cd28a y 996718c."],
+                ["Realizar cambios", "Se modifico README.md y se agregaron index.html y styles.css."],
+        ["Commit", "Commit 9afe888 con los cambios del proyecto."],
+        ["Push", "Rama cambios-practica-fork subida al fork remoto."],
+        ["Pull request", "PR abierto: https://github.com/sgvillalobos/practica-git/pull/1."],
         ["Documentar en PDF", "Este documento contiene capturas y salidas de comandos."],
     ], colWidths=[2.1 * inch, 4.9 * inch], hAlign="LEFT")
     table.setStyle(TableStyle([
@@ -195,4 +203,6 @@ def build_pdf():
 if __name__ == "__main__":
     generate_captures()
     print(build_pdf())
+
+
 

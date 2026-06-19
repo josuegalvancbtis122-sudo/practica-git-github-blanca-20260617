@@ -56,3 +56,31 @@ d--h-        .git
 > git status --short --branch
 ## main...origin/main
 
+
+===== Cambios realizados en el proyecto =====
+> git show --stat --oneline HEAD
+9afe888 Agregar cambios de practica para pull request
+ README.md  |  8 ++++++++
+ index.html | 15 +++++++++++++++
+ styles.css | 26 ++++++++++++++++++++++++++
+ 3 files changed, 49 insertions(+)
+
+
+===== Commit de los cambios =====
+> git log --oneline --decorate --graph -4
+* 9afe888 (HEAD -> cambios-practica-fork, origin/cambios-practica-fork) Agregar cambios de practica para pull request
+* c443607 (origin/main, origin/HEAD, main) Rename project title in README
+* c8cd28a Update project title in README
+* 996718c Primer commit
+
+
+===== Push al repositorio remoto =====
+> git status --short --branch
+## cambios-practica-fork...origin/cambios-practica-fork
+
+La rama cambios-practica-fork fue subida a origin con git push -u origin cambios-practica-fork.
+
+===== Pull request creado =====
+> POST https://api.github.com/repos/sgvillalobos/practica-git/pulls
+PR #1: https://github.com/sgvillalobos/practica-git/pull/1
+Estado: open - esperando revision del companero.
